@@ -8,6 +8,7 @@ import { Plant } from "./Interfaces";
 import PageAdd from "./PageAdd";
 import PageHome from "./PageHome";
 import PageInfo from "./PageInfo";
+import PagePlantDetail from "./PagePlantDetail";
 import PagePlants from "./PagePlants";
 
 const styles = {
@@ -39,7 +40,7 @@ class App extends React.Component<{}, State> {
 	};
 
 	setPlantCount = (id: number, count: number) => {
-		let plants = this.state.plants;
+		let plants = [...this.state.plants];
 		const plantIndex = plants.findIndex((plant) => plant.id === id);
 		if (count) {
 			plants[plantIndex] = { ...plants[plantIndex], number: count };
@@ -51,7 +52,7 @@ class App extends React.Component<{}, State> {
 	};
 
 	addPlant = (newPlant: Plant) => {
-		let plants = this.state.plants;
+		let plants = [...this.state.plants];
 		const plantIndex = plants.findIndex((plant) => plant.id === newPlant.id);
 		if (plantIndex === -1) {
 			plants.push({ ...newPlant, number: 1 });
@@ -68,6 +69,22 @@ class App extends React.Component<{}, State> {
 				<div {...styles.container}>
 					<HashRouter>
 						<Switch>
+							<Route
+								path="/plants/:id"
+								render={(props) => (
+									<div>
+										<Header {...props} />
+										<PagePlantDetail
+											setPlantCount={(count: number) =>
+												this.setPlantCount(props.match.params.id, count)
+											}
+											plant={this.state.plants.find(
+												(plant) => plant.id === parseInt(props.match.params.id)
+											)}
+										/>
+									</div>
+								)}
+							/>
 							<Route
 								path="/plants"
 								render={(props) => (

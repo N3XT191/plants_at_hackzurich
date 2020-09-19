@@ -37,7 +37,7 @@ const styles = {
 	}),
 	branches: css({
 		marginTop: "0px",
-		marginBottom: "16px",
+		marginBottom: "10px",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
@@ -49,7 +49,7 @@ const styles = {
 		height: "35px",
 		backgroundColor: "#87736E",
 		clipPath: "polygon(10% 0, 100% 0, 100% 100%, 0 100%)",
-		marginTop: "10px",
+		marginTop: "12px",
 		marginRight: "30px",
 		display: "flex",
 		justifyContent: "center",

@@ -24,6 +24,16 @@ const styles = {
 	callout: css({
 		marginTop: "10px !important",
 		backgroundColor: "#87736E !important",
+		display: "flex",
+		justifyContent: "space-between",
+	}),
+	image: css({
+		height: "120px",
+		marginRight: "10px",
+		//border: "1px solid black",
+		boxSizing: "border-box",
+		position: "relative",
+		cursor: "pointer",
 	}),
 };
 interface Props {
@@ -37,24 +47,28 @@ const PagePlants: React.FC<Props> = ({ plants, setPlantCount }) => {
 			<div {...styles.callouts}>
 				{plants.map((plant) => (
 					<Callout {...styles.callout}>
-						<div>{plant.name}</div>
-						<div>Number: {plant.number}</div>{" "}
-						<ButtonGroup>
-							<Button
-								icon="plus"
-								active={true}
-								onClick={() => setPlantCount(plant.id, plant.number + 1)}
-							/>
-							<Button
-								icon="minus"
-								active={false}
-								onClick={() => setPlantCount(plant.id, plant.number - 1)}
-							/>
-						</ButtonGroup>
 						<div>
-							kg CO<sub>2</sub>/unit/year: {plant.co2}
+							<img alt={plant.name} src={plant.image} {...styles.image} />
 						</div>
-						<Button icon="trash" onClick={() => setPlantCount(plant.id, 0)} />
+						<div>
+							<div>{plant.number + "x " + plant.name}</div>
+							<ButtonGroup>
+								<Button
+									icon="plus"
+									active={true}
+									onClick={() => setPlantCount(plant.id, plant.number + 1)}
+								/>
+								<Button
+									icon="minus"
+									active={false}
+									onClick={() => setPlantCount(plant.id, plant.number - 1)}
+								/>
+							</ButtonGroup>
+							<div>
+								kg CO<sub>2</sub>/unit/year: {plant.co2}
+							</div>
+							<Button icon="trash" onClick={() => setPlantCount(plant.id, 0)} />
+						</div>
 					</Callout>
 				))}
 			</div>

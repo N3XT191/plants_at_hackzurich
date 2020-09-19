@@ -3,14 +3,15 @@ import * as React from "react";
 
 import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
 import { Plant } from "./Interfaces";
+import { Link } from "react-router-dom";
+import { Colors } from "@blueprintjs/core";
 
 const styles = {
 	container: css({
 		width: "218px",
 		height: "140px",
 		backgroundColor: "#BFB9A5",
-		marginBottom: "-5px",
-		marginTop: "5px",
+		marginTop: "10px",
 		marginRight: "100px",
 		padding: "5px",
 		paddingLeft: "20px",
@@ -22,7 +23,18 @@ const styles = {
 		position: "relative",
 		cursor: "pointer",
 	}),
-	plant: css({ display: "flex", flexDirection: "column" }),
+	plant: css({
+		display: "flex",
+		flexDirection: "column",
+		width: "100%",
+	}),
+	link: css({
+		color: Colors.DARK_GRAY3 + " !important",
+		":hover": {
+			color: Colors.DARK_GRAY3 + " !important",
+			textDecoration: "none !important",
+		},
+	}),
 };
 
 interface Props {
@@ -42,12 +54,14 @@ const PlantCarousel: React.FC<Props> = ({ plants }) => {
 				<Slider>
 					{plants.map((plant, index) => (
 						<Slide index={index}>
-							<div {...styles.plant}>
-								{plant.number + "x " + plant.name}
-								<div>
-									<img alt={plant.name} src={plant.image} {...styles.image} />
+							<Link to={"/plants/" + plant.id} {...styles.link}>
+								<div {...styles.plant}>
+									{plant.number + "x " + plant.name}
+									<div>
+										<img alt={plant.name} src={plant.image} {...styles.image} />
+									</div>
 								</div>
-							</div>
+							</Link>
 						</Slide>
 					))}
 				</Slider>
