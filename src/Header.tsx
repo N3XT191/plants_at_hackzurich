@@ -6,12 +6,11 @@ import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem } from "reac
 
 const styles = {
 	header: css({
-		backgroundColor: "#1D7324",
+		backgroundColor: "#91972A",
 		color: Colors.LIGHT_GRAY5 + " !important",
 		padding: "10px",
-		margin: "0 0 20px 0",
+		margin: "0 0 10px 0",
 		textAlign: "left",
-		borderRadius: "0 0 3px 3px",
 	}),
 
 	home: css({
@@ -31,13 +30,6 @@ const styles = {
 		},
 	}),
 	makeBottom: css({ marginTop: "10px" }),
-	switch: css({
-		marginTop: "2px",
-		marginLeft: "40px",
-		"@media (max-width: 780px)": {
-			marginLeft: "20px",
-		},
-	}),
 };
 
 export default class Header extends React.Component<{

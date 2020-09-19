@@ -12,7 +12,7 @@ const styles = {
 };
 
 const PageInfo: React.FC = () => {
-	return <div {...styles.container}>Info</div>;
+	return <div {...styles.container}>Some Info Text about the App...</div>;
 };
 
 export default PageInfo;
