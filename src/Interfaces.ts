@@ -4,4 +4,5 @@ export interface Plant {
 	co2: number;
 	number: number;
 	type: string;
+	image: string;
 }

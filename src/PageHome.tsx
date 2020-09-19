@@ -7,6 +7,7 @@ import steak from "./Steak.png";
 import { Plant } from "./Interfaces";
 import { Link } from "react-router-dom";
 import { Colors } from "@blueprintjs/core";
+import PlantCarousel from "./PlantCarousel";
 
 const styles = {
 	container: css({
@@ -17,7 +18,14 @@ const styles = {
 		alignItems: "center",
 		position: "relative",
 	}),
-	tree: css({ position: "absolute", right: 0, top: "-10px", height: "300px", zIndex: 100 }),
+	tree: css({
+		position: "absolute",
+		right: 0,
+		top: "-10px",
+		height: "350px",
+		width: "140px",
+		zIndex: 100,
+	}),
 	title: css({
 		width: "100%",
 		height: "35x",
@@ -28,8 +36,8 @@ const styles = {
 		fontSize: 24,
 	}),
 	branches: css({
-		marginTop: "60px",
-		marginBottom: "41px",
+		marginTop: "0px",
+		marginBottom: "16px",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
@@ -37,11 +45,12 @@ const styles = {
 		width: "100%",
 	}),
 	branch: css({
-		width: "300px",
+		width: "320px",
 		height: "35px",
 		backgroundColor: "#87736E",
 		clipPath: "polygon(10% 0, 100% 0, 100% 100%, 0 100%)",
-		marginTop: "15px",
+		marginTop: "10px",
+		marginRight: "30px",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
@@ -78,9 +87,10 @@ const PageHome: React.FC<Props> = ({ plants }) => {
 	return (
 		<div {...styles.container}>
 			<img {...styles.tree} src={tree} alt="barcode" />
-			<div {...styles.title}>My Plants</div>
+			<div {...styles.title}>My Garden</div>
 			<div {...styles.branches}>
 				<div {...styles.branch}>{number} plants</div>
+				<PlantCarousel plants={plants} />
 				<div {...styles.branch}>
 					<Link to="/plants" {...styles.link}>
 						Show all plants

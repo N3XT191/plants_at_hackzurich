@@ -15,6 +15,7 @@
     "@types/reactstrap": "^8.5.1",
     "bootstrap": "^4.5.2",
     "glamor": "^2.20.40",
+    "pure-react-carousel": "^1.27.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
