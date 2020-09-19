@@ -1,4 +1,3 @@
-import { Colors } from "@blueprintjs/core";
 import { css } from "glamor";
 import * as React from "react";
 import { Switch, Route, HashRouter } from "react-router-dom";
@@ -13,10 +12,11 @@ import PagePlants from "./PagePlants";
 
 const styles = {
 	App: css({
-		backgroundColor: "#F6FEDB",
+		backgroundColor: "#f1fdfb",
 		height: "100%",
 		minHeight: "100vh",
-		color: Colors.DARK_GRAY3 + " !important",
+		color: "#092113 !important",
+		fontFamily: "Montserrat",
 	}),
 	container: css({
 		width: "100%",
@@ -39,9 +39,9 @@ class App extends React.Component<{}, State> {
 			: defaultPlants,
 	};
 
-	setPlantCount = (id: number, count: number) => {
+	setPlantCount = (name: string, count: number) => {
 		let plants = [...this.state.plants];
-		const plantIndex = plants.findIndex((plant) => plant.id === id);
+		const plantIndex = plants.findIndex((plant) => plant.name === name);
 		if (count) {
 			plants[plantIndex] = { ...plants[plantIndex], number: count };
 		} else {
@@ -70,16 +70,16 @@ class App extends React.Component<{}, State> {
 					<HashRouter>
 						<Switch>
 							<Route
-								path="/plants/:id"
+								path="/plants/:name"
 								render={(props) => (
 									<div>
 										<Header {...props} />
 										<PagePlantDetail
 											setPlantCount={(count: number) =>
-												this.setPlantCount(props.match.params.id, count)
+												this.setPlantCount(decodeURIComponent(props.match.params.name), count)
 											}
 											plant={this.state.plants.find(
-												(plant) => plant.id === parseInt(props.match.params.id)
+												(plant) => plant.name === decodeURIComponent(props.match.params.name)
 											)}
 										/>
 									</div>

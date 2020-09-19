@@ -10,11 +10,12 @@ const styles = {
 	container: css({
 		width: "218px",
 		height: "140px",
-		backgroundColor: "#BFB9A5",
-		marginTop: "10px",
-		marginRight: "100px",
+		backgroundColor: "#f5ccc5",
+		marginTop: "20px",
+		marginRight: "95px",
 		padding: "5px",
 		paddingLeft: "20px",
+		borderRadius: "5px",
 	}),
 	image: css({
 		height: "105px",
@@ -54,7 +55,7 @@ const PlantCarousel: React.FC<Props> = ({ plants }) => {
 				<Slider>
 					{plants.map((plant, index) => (
 						<Slide index={index}>
-							<Link to={"/plants/" + plant.id} {...styles.link}>
+							<Link to={"/plants/" + encodeURIComponent(plant.name)} {...styles.link}>
 								<div {...styles.plant}>
 									{plant.number + "x " + plant.name}
 									<div>

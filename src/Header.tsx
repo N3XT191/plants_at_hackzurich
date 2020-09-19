@@ -6,15 +6,15 @@ import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem } from "reac
 
 const styles = {
 	header: css({
-		backgroundColor: "#91972A",
-		color: Colors.LIGHT_GRAY5 + " !important",
-		padding: "10px",
-		margin: "0 0 10px 0",
+		backgroundColor: "#58b482",
+		color: "#f1fdfb !important",
 		textAlign: "left",
+		fontWeight: 400,
 	}),
 
 	home: css({
-		fontSize: "34px !important",
+		padding: 0,
+		fontSize: "44px !important",
 		color: Colors.LIGHT_GRAY5,
 		":hover": { color: Colors.LIGHT_GRAY4, textDecoration: "none" },
 	}),
@@ -59,7 +59,7 @@ export default class Header extends React.Component<{
 		const links = {
 			left: [
 				{ to: "/", label: "Home" },
-				{ to: "/plants", label: "My Plants" },
+				{ to: "/plants", label: "My Garden" },
 				{ to: "/add", label: "Add Plants" },
 			],
 			right: [{ to: "/info", label: "Infos" }],

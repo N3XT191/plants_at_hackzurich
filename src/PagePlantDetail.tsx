@@ -1,4 +1,4 @@
-import { Button, ButtonGroup } from "@blueprintjs/core";
+import { Alert, Button, ButtonGroup, H3 } from "@blueprintjs/core";
 import { css } from "glamor";
 import * as React from "react";
 import { Plant } from "./Interfaces";
@@ -14,11 +14,12 @@ const styles = {
 	title: css({
 		width: "100%",
 		height: "35x",
-		backgroundColor: "#87736E",
+		backgroundColor: "#80f1ba",
 		display: "flex",
-		justifyContent: "center",
+		paddingLeft: "20px",
 		alignItems: "center",
 		fontSize: 24,
+		fontWeight: 300,
 	}),
 	body: css({ display: "flex", justifyContent: "space-between", padding: "20px" }),
 	image: css({
@@ -37,6 +38,8 @@ interface Props {
 	setPlantCount: (count: number) => void;
 }
 const PagePlantDetail: React.FC<Props> = ({ plant, setPlantCount }) => {
+	const [openShop, setOpenShop] = React.useState<any>({});
+
 	return (
 		<div {...styles.container}>
 			{plant ? (
@@ -49,12 +52,8 @@ const PagePlantDetail: React.FC<Props> = ({ plant, setPlantCount }) => {
 						<div>
 							<div>{plant.number + "x " + plant.name}</div>
 							<ButtonGroup>
-								<Button icon="plus" active={true} onClick={() => setPlantCount(plant.number + 1)} />
-								<Button
-									icon="minus"
-									active={false}
-									onClick={() => setPlantCount(plant.number - 1)}
-								/>
+								<Button icon="plus" onClick={() => setPlantCount(plant.number + 1)} />
+								<Button icon="minus" onClick={() => setPlantCount(plant.number - 1)} />
 							</ButtonGroup>
 							<div>
 								kg CO<sub>2</sub>/unit/year: {plant.co2}
@@ -64,8 +63,8 @@ const PagePlantDetail: React.FC<Props> = ({ plant, setPlantCount }) => {
 					</div>
 					<div {...styles.title}>Buy me here:</div>
 					<Map
-						center={[47.1699, 8.45776]}
-						zoom={8}
+						center={[47.1588, 8.43876]}
+						zoom={9}
 						{...styles.map}
 						height={240}
 						provider={(x: number, y: number, z: number) => {
@@ -73,14 +72,18 @@ const PagePlantDetail: React.FC<Props> = ({ plant, setPlantCount }) => {
 							return `https://${s}.tile.openstreetmap.org/${z}/${x}/${y}.png`;
 						}}
 					>
-						{getRandom(locations, 10).map((location) => (
+						{getRandom(locations, 100).map((location) => (
 							<Marker
 								anchor={[location.coords.latitude, location.coords.longitude]}
 								payload={1}
-								onClick={() => {}}
+								onClick={() => setOpenShop(location)}
 							/>
 						))}
 					</Map>
+					<Alert icon="shop" isOpen={openShop.name} onClose={() => setOpenShop({})}>
+						<H3>{openShop.name}</H3>
+						{openShop.adress}
+					</Alert>
 				</>
 			) : (
 				<div>This plant doesn't exist</div>

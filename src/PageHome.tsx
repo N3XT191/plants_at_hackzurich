@@ -22,50 +22,72 @@ const styles = {
 		position: "absolute",
 		right: 0,
 		top: "-10px",
-		height: "350px",
+		height: "380px",
 		width: "140px",
 		zIndex: 100,
 	}),
 	title: css({
 		width: "100%",
 		height: "35x",
-		backgroundColor: "#87736E",
+		backgroundColor: "#80f1ba",
 		display: "flex",
-		justifyContent: "center",
+		paddingLeft: "20px",
 		alignItems: "center",
 		fontSize: 24,
+		fontWeight: 300,
+	}),
+	iconTitle: css({
+		marginTop: "8px",
 	}),
 	branches: css({
 		marginTop: "0px",
-		marginBottom: "10px",
+		marginBottom: "15px",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
 		alignItems: "flex-end",
 		width: "100%",
 	}),
-	branch: css({
-		width: "320px",
-		height: "35px",
-		backgroundColor: "#87736E",
-		clipPath: "polygon(10% 0, 100% 0, 100% 100%, 0 100%)",
-		marginTop: "12px",
-		marginRight: "30px",
+
+	svgBranch: css({
+		marginTop: "20px",
+		width: "280px",
+		height: "30px",
+		background: "#c48e85",
+		"-webkit-clip-path": "url(#maskRect1)",
+		textIndent: "40px",
 		display: "flex",
-		justifyContent: "center",
 		alignItems: "center",
 	}),
 	icons: css({ width: "100%", display: "flex", flexDirection: "column", flexGrow: 0 }),
-	iconContainer: css({ display: "flex", alignItems: "center" }),
-	icon: css({ marginLeft: "10px", width: "100px", marginTop: "20px", zIndex: 100 }),
-	iconBranch: css({
-		width: "260px",
-		height: "35px",
-		backgroundColor: "#87736E",
-		clipPath: "polygon(0% 0, 100% 0, 90% 100%,0 100%)",
+	iconContainer: css({ display: "flex", alignItems: "center", marginTop: "5px" }),
+	icon: css({ marginLeft: "10px", width: "50px", zIndex: 100 }),
+	iconBlob: css({
+		backgroundColor: "#baffdd",
+		width: "120px",
+		height: "60px",
+		borderRadius: "50px 30px 20px 15px",
+		paddingLeft: "5px",
 		marginTop: "10px",
+		marginLeft: "30px",
+		zIndex: 100,
 		display: "flex",
-		justifyContent: "center",
+		alignItems: "center",
+		justifyContent: "space-between",
+		paddingRight: "10px",
+		fontSize: 20,
+	}),
+	iconBlobBorderAlt: css({
+		borderRadius: "60px 95px 40px 25px",
+	}),
+	iconBranch: css({
+		width: "200px",
+		height: "35px",
+		backgroundColor: "#c48e85",
+		borderRadius: "10px",
+		marginTop: "5px",
+		display: "flex",
+		paddingLeft: "30px",
 		alignItems: "center",
 		marginLeft: "-20px",
 	}),
@@ -76,6 +98,7 @@ const styles = {
 			textDecoration: "none !important",
 		},
 	}),
+	bolder: css({ fontWeight: 600 }),
 };
 
 interface Props {
@@ -89,32 +112,56 @@ const PageHome: React.FC<Props> = ({ plants }) => {
 			<img {...styles.tree} src={tree} alt="barcode" />
 			<div {...styles.title}>My Garden</div>
 			<div {...styles.branches}>
-				<div {...styles.branch}>{number} plants</div>
+				<svg {...css({ marginTop: "-150px", zIndex: -1 })}>
+					<defs>
+						<clipPath id="maskRect1">
+							<path
+								id="curve"
+								stroke="blue"
+								fill="purple"
+								d="M 360 0 L 90 0 C 30 0 30 40 40 50 C 60 60 90 60 140 60 L 360 60 Z"
+								transform="scale(1.2 0.5) translate(-30)"
+							/>
+						</clipPath>
+					</defs>
+				</svg>
+				<div id="maskDiv" {...styles.svgBranch} {...css({ width: "320px" })}>
+					<div {...styles.bolder}>{number}</div>&nbsp;plants
+				</div>
+
 				<PlantCarousel plants={plants} />
-				<div {...styles.branch}>
+				<div {...styles.svgBranch}>
 					<Link to="/plants" {...styles.link}>
 						Show all plants
 					</Link>
 				</div>
-				<div {...styles.branch}>
+				<div {...styles.svgBranch}>
 					<Link to="/add" {...styles.link}>
 						Add plants
 					</Link>
 				</div>
 			</div>
-			<div {...styles.title}>
-				CO<sub>2</sub>
+			<div {...styles.title} {...styles.iconTitle}>
+				<div {...styles.bolder}>
+					CO<sub>2</sub>
+				</div>
 				&nbsp;absorbed:&nbsp;
-				{Math.round(CO2 * 100) / 100}kg / year
+				<div {...styles.bolder}>{Math.round(CO2 * 100) / 100}kg / year</div>
 			</div>
 			<div {...styles.icons}>
 				<div {...styles.iconContainer}>
-					<img {...styles.icon} src={steak} alt="barcode" />
-					<div {...styles.iconBranch}>{Math.round((CO2 / 67.8) * 100) / 100}kg beef / year</div>
+					<div {...styles.iconBlob}>
+						<img {...styles.icon} src={steak} alt="barcode" />
+						<div {...styles.bolder}>{Math.round((CO2 / 67.8) * 11) / 10}</div>
+					</div>
+					<div {...styles.iconBranch}>kg beef / year</div>
 				</div>
 				<div {...styles.iconContainer}>
-					<img {...styles.icon} src={car} alt="barcode" />
-					<div {...styles.iconBranch}>{Math.round((CO2 / 0.314) * 100) / 100}km / year</div>
+					<div {...styles.iconBlob} {...styles.iconBlobBorderAlt}>
+						<img {...styles.icon} src={car} alt="barcode" />
+						<div {...styles.bolder}>{Math.round(CO2 / 0.314)}</div>
+					</div>
+					<div {...styles.iconBranch}>km / year</div>
 				</div>
 			</div>
 		</div>
