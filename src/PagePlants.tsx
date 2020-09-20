@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, ButtonGroup, Callout, Colors, Icon } from "@blueprintjs/core";
 import { css } from "glamor";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { Plant } from "./Interfaces";
+import { getImage } from "./api";
+import { PlantedPlant } from "./Interfaces";
 
 const styles = {
 	container: css({
@@ -29,14 +31,13 @@ const styles = {
 		backgroundColor: "#80f1ba !important",
 		display: "flex",
 		justifyContent: "space-between",
+		width: "200px",
 	}),
+	imgContainer: css({ height: "170px", overflow: "hidden" }),
 	image: css({
-		height: "120px",
-		marginRight: "10px",
-		//border: "1px solid black",
-		boxSizing: "border-box",
-		position: "relative",
-		cursor: "pointer",
+		display: "block",
+		height: "100%",
+		width: "auto !important",
 	}),
 	link: css({
 		color: Colors.DARK_GRAY3 + " !important",
@@ -51,12 +52,27 @@ const styles = {
 		top: 1,
 	}),
 	plusIcon: css({ color: "white ! important" }),
+	name: css({ whiteSpace: "nowrap", overflow: "hidden", fontSize: 18 }),
+	co2: css({ whiteSpace: "nowrap", overflow: "hidden", fontSize: 14, fontWeight: 600 }),
+	trait: css({ whiteSpace: "nowrap", overflow: "hidden", fontSize: 14 }),
 };
 interface Props {
-	plants: Plant[];
+	plants: PlantedPlant[];
 	setPlantCount: (name: string, count: number) => void;
 }
+
 const PagePlants: React.FC<Props> = ({ plants, setPlantCount }) => {
+	const [images, setImages] = React.useState<any[]>([]);
+
+	async function fetchImages() {
+		const imageResArray = await Promise.all(plants.map((plant) => getImage(plant.latin_name)));
+		setImages(imageResArray);
+	}
+
+	React.useEffect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		fetchImages();
+	}, []);
 	return (
 		<div {...styles.container}>
 			<div {...styles.title}>
@@ -68,23 +84,26 @@ const PagePlants: React.FC<Props> = ({ plants, setPlantCount }) => {
 				</Link>
 			</div>
 			<div {...styles.callouts}>
-				{plants.map((plant) => (
+				{plants.map((plant, index) => (
 					<Callout {...styles.callout}>
 						<div>
-							<Link to={"/plants/" + encodeURIComponent(plant.name)} {...styles.link}>
-								<img alt={plant.name} src={plant.image} {...styles.image} />
-							</Link>
-						</div>
-						<div>
-							<div>{plant.number + "x " + plant.name}</div>
+							<div {...styles.name}>{plant.number + "x " + plant.name}</div>
 							<ButtonGroup>
 								<Button icon="plus" onClick={() => setPlantCount(plant.name, plant.number + 1)} />
 								<Button icon="minus" onClick={() => setPlantCount(plant.name, plant.number - 1)} />
 							</ButtonGroup>
-							<div>
-								kg CO<sub>2</sub>/unit/year: {plant.co2}
+							<div {...styles.co2}>
+								CO<sub>2</sub>: {Math.ceil(plant.co2 * 100) / 100}
 							</div>
+							<div {...styles.trait}>Type: {plant.habit}</div>
+							<div {...styles.trait}>pH: {plant.pH}</div>
+							<div {...styles.trait}>Moisture: {plant.moisture}</div>
 							<Button icon="trash" onClick={() => setPlantCount(plant.name, 0)} />
+						</div>
+						<div {...styles.imgContainer}>
+							<Link to={"/plants/" + encodeURIComponent(plant.name)} {...styles.link}>
+								<img alt={plant.name} src={images[index]?.data} {...styles.image} />
+							</Link>
 						</div>
 					</Callout>
 				))}

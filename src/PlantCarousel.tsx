@@ -2,7 +2,7 @@ import { css } from "glamor";
 import * as React from "react";
 
 import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
-import { Plant } from "./Interfaces";
+import { PlantedPlant } from "./Interfaces";
 import { Link } from "react-router-dom";
 import { Colors } from "@blueprintjs/core";
 
@@ -36,12 +36,15 @@ const styles = {
 			textDecoration: "none !important",
 		},
 	}),
+	name: css({ whiteSpace: "nowrap", overflow: "hidden" }),
 };
 
 interface Props {
-	plants: Plant[];
+	plants: PlantedPlant[];
+	images: { data: string }[];
 }
-const PlantCarousel: React.FC<Props> = ({ plants }) => {
+const PlantCarousel: React.FC<Props> = ({ images, plants }) => {
+	console.log(images);
 	return (
 		<div {...styles.container}>
 			<CarouselProvider
@@ -57,9 +60,9 @@ const PlantCarousel: React.FC<Props> = ({ plants }) => {
 						<Slide index={index}>
 							<Link to={"/plants/" + encodeURIComponent(plant.name)} {...styles.link}>
 								<div {...styles.plant}>
-									{plant.number + "x " + plant.name}
+									<div {...styles.name}>{plant.number + "x " + plant.name}</div>
 									<div>
-										<img alt={plant.name} src={plant.image} {...styles.image} />
+										<img alt={plant.name} src={images[index]?.data} {...styles.image} />
 									</div>
 								</div>
 							</Link>

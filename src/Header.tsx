@@ -4,6 +4,8 @@ import * as React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem } from "reactstrap";
 
+import logo from "./image.png";
+
 const styles = {
 	header: css({
 		backgroundColor: "#58b482",
@@ -76,6 +78,7 @@ export default class Header extends React.Component<{
 							}}
 						>
 							Plant.li
+							<img alt="asdf" src={logo} height={60}></img>
 						</Link>
 					</NavbarBrand>
 					<NavbarToggler

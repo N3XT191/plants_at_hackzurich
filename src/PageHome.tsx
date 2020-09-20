@@ -4,10 +4,11 @@ import * as React from "react";
 import tree from "./Tree.png";
 import car from "./Car.png";
 import steak from "./Steak.png";
-import { Plant } from "./Interfaces";
+import { PlantedPlant } from "./Interfaces";
 import { Link } from "react-router-dom";
 import { Colors } from "@blueprintjs/core";
 import PlantCarousel from "./PlantCarousel";
+import { getImage } from "./api";
 
 const styles = {
 	container: css({
@@ -21,8 +22,8 @@ const styles = {
 	tree: css({
 		position: "absolute",
 		right: 0,
-		top: "-10px",
-		height: "380px",
+		top: "-20px",
+		height: "390px",
 		width: "140px",
 		zIndex: 100,
 	}),
@@ -68,7 +69,7 @@ const styles = {
 		height: "60px",
 		borderRadius: "50px 30px 20px 15px",
 		paddingLeft: "5px",
-		marginTop: "10px",
+		marginTop: "6px",
 		marginLeft: "30px",
 		zIndex: 100,
 		display: "flex",
@@ -82,10 +83,10 @@ const styles = {
 	}),
 	iconBranch: css({
 		width: "200px",
-		height: "35px",
+		height: "32px",
 		backgroundColor: "#c48e85",
 		borderRadius: "10px",
-		marginTop: "5px",
+		marginTop: "2px",
 		display: "flex",
 		paddingLeft: "30px",
 		alignItems: "center",
@@ -102,11 +103,24 @@ const styles = {
 };
 
 interface Props {
-	plants: Plant[];
+	plants: PlantedPlant[];
 }
 const PageHome: React.FC<Props> = ({ plants }) => {
 	const number = plants.reduce((accumulator, plant) => accumulator + plant.number, 0);
 	const CO2 = plants.reduce((accumulator, plant) => accumulator + plant.co2 * plant.number, 0);
+
+	const [images, setImages] = React.useState<any[]>([]);
+
+	async function fetchImages() {
+		const imageResArray = await Promise.all(plants.map((plant) => getImage(plant.latin_name)));
+		setImages(imageResArray);
+	}
+
+	React.useEffect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		fetchImages();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	return (
 		<div {...styles.container}>
 			<img {...styles.tree} src={tree} alt="barcode" />
@@ -129,7 +143,7 @@ const PageHome: React.FC<Props> = ({ plants }) => {
 					<div {...styles.bolder}>{number}</div>&nbsp;plants
 				</div>
 
-				<PlantCarousel plants={plants} />
+				<PlantCarousel plants={plants} images={images} />
 				<div {...styles.svgBranch}>
 					<Link to="/plants" {...styles.link}>
 						Show all plants

@@ -3,7 +3,7 @@ import * as React from "react";
 import { Switch, Route, HashRouter } from "react-router-dom";
 import { defaultPlants } from "./constants";
 import Header from "./Header";
-import { Plant } from "./Interfaces";
+import { Plant, PlantedPlant } from "./Interfaces";
 import PageAdd from "./PageAdd";
 import PageHome from "./PageHome";
 import PageInfo from "./PageInfo";
@@ -30,37 +30,38 @@ const styles = {
 };
 
 interface State {
-	plants: Plant[];
+	plants: PlantedPlant[];
 }
 class App extends React.Component<{}, State> {
 	state = {
-		plants: localStorage.getItem("plant_at_hackzurich")
-			? (JSON.parse(localStorage.getItem("plant_at_hackzurich")!) as Plant[])
+		plants: localStorage.getItem("plant_at_hackzurich_real")
+			? (JSON.parse(localStorage.getItem("plant_at_hackzurich_real")!) as PlantedPlant[])
 			: defaultPlants,
 	};
 
 	setPlantCount = (name: string, count: number) => {
 		let plants = [...this.state.plants];
 		const plantIndex = plants.findIndex((plant) => plant.name === name);
+
 		if (count) {
 			plants[plantIndex] = { ...plants[plantIndex], number: count };
 		} else {
 			plants.splice(plantIndex, 1);
 		}
 		this.setState({ plants });
-		localStorage.setItem("plant_at_hackzurich", JSON.stringify(plants));
+		localStorage.setItem("plant_at_hackzurich_real", JSON.stringify(plants));
 	};
 
 	addPlant = (newPlant: Plant) => {
 		let plants = [...this.state.plants];
-		const plantIndex = plants.findIndex((plant) => plant.id === newPlant.id);
+		const plantIndex = plants.findIndex((plant) => plant.latin_name === newPlant.latin_name);
 		if (plantIndex === -1) {
 			plants.push({ ...newPlant, number: 1 });
 		} else {
 			plants[plantIndex] = { ...plants[plantIndex], number: plants[plantIndex].number + 1 };
 		}
 		this.setState({ plants });
-		localStorage.setItem("plant_at_hackzurich", JSON.stringify(plants));
+		localStorage.setItem("plant_at_hackzurich_real", JSON.stringify(plants));
 	};
 
 	public render() {
@@ -71,19 +72,29 @@ class App extends React.Component<{}, State> {
 						<Switch>
 							<Route
 								path="/plants/:name"
-								render={(props) => (
-									<div>
-										<Header {...props} />
-										<PagePlantDetail
-											setPlantCount={(count: number) =>
-												this.setPlantCount(decodeURIComponent(props.match.params.name), count)
-											}
-											plant={this.state.plants.find(
-												(plant) => plant.name === decodeURIComponent(props.match.params.name)
-											)}
-										/>
-									</div>
-								)}
+								render={(props) => {
+									const plant = this.state.plants.find(
+										(plant) => plant.name === decodeURIComponent(props.match.params.name)
+									);
+									return (
+										<div>
+											<Header {...props} />
+											<PagePlantDetail
+												setPlantCount={(count: number) =>
+													this.setPlantCount(decodeURIComponent(props.match.params.name), count)
+												}
+												addPlant={this.addPlant}
+												plant={
+													plant
+														? plant
+														: ({
+																latin_name: decodeURIComponent(props.match.params.name),
+														  } as PlantedPlant)
+												}
+											/>
+										</div>
+									);
+								}}
 							/>
 							<Route
 								path="/plants"
