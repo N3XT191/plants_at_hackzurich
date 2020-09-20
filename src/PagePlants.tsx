@@ -31,7 +31,7 @@ const styles = {
 		backgroundColor: "#80f1ba !important",
 		display: "flex",
 		justifyContent: "space-between",
-		width: "200px",
+		width: "100%",
 	}),
 	imgContainer: css({ height: "170px", overflow: "hidden" }),
 	image: css({

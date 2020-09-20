@@ -160,7 +160,7 @@ const PageHome: React.FC<Props> = ({ plants }) => {
 					CO<sub>2</sub>
 				</div>
 				&nbsp;absorbed:&nbsp;
-				<div {...styles.bolder}>{Math.round(CO2 * 100) / 100}kg / year</div>
+				<div {...styles.bolder}>{Math.round(CO2 * 10) / 10} kg / year</div>
 			</div>
 			<div {...styles.icons}>
 				<div {...styles.iconContainer}>

@@ -28,4 +28,5 @@ export const getSuggestions = (lat: number, long: number) =>
 export const searchPlant = (search: string) => getData("/search?name=" + search);
 
 export const getImage = (query: string) =>
-	sendData("https://shelf.li/api/getPlantImage", { query });
+	//sendData("https://shelf.li/api/getPlantImage", { query });
+	sendData("http://localhost:2000/getPlantImage", { query });

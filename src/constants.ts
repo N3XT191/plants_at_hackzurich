@@ -1,6 +1,7 @@
 import { Plant, PlantedPlant } from "./Interfaces";
 
-export const baseURL = "https://plant.bitter.li/api";
+//export const baseURL = "https://plant.bitter.li/api";
+export const baseURL = "http://localhost:5000";
 
 export const imageURL =
 	"https://i2.wp.com/bigtreetele.com/wp-content/uploads/2015/09/cropped-BigTreeLogo1.png?fit=512%2C512&ssl=1";

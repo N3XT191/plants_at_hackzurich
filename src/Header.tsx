@@ -77,7 +77,7 @@ export default class Header extends React.Component<{
 								this.setState({ isOpen: false });
 							}}
 						>
-							Plant.li
+							plant.li
 							<img alt="asdf" src={logo} height={60}></img>
 						</Link>
 					</NavbarBrand>

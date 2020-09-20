@@ -10,7 +10,7 @@ import {
 import { css } from "glamor";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { getSuggestions, searchPlant } from "./api";
+import { getImage, getSuggestions, searchPlant } from "./api";
 import { mapSuggestions } from "./constants";
 import { Plant } from "./Interfaces";
 
@@ -52,7 +52,7 @@ const styles = {
 		backgroundColor: "#80f1ba !important",
 		display: "flex",
 		justifyContent: "space-between",
-		width: "200px",
+		width: "100%",
 	}),
 	imgContainer: css({ height: "170px", overflow: "hidden" }),
 	image: css({
@@ -107,14 +107,12 @@ const PageAdd: React.FC<Props> = ({ addPlant }) => {
 	const [images, setImages] = React.useState<any[]>([]);
 
 	async function fetchImages(suggestions: any[]) {
-		const imageResArray = await Promise.all(
-			suggestions.map((plant) => setImages(plant.latin_name))
-		);
+		const imageResArray = await Promise.all(suggestions.map((plant) => getImage(plant.latin_name)));
+		console.log(imageResArray);
 		setImages(imageResArray);
 	}
 
 	React.useEffect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		fetchImages(suggestions);
 	}, [suggestions]);
 
